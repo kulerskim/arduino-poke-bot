@@ -1,16 +1,13 @@
 #include <Arduino.h>
-#include <L298N.h>
 #include "main.h"
+#include "body/chassis.h"
 
 char command = ' ';
 boolean commandReady = false;
-L298N wheels(MOTOR_PIN_ENA,
-             MOTOR_PIN_IN1,
-             MOTOR_PIN_IN2,
-             MOTOR_PIN_IN3,
-             MOTOR_PIN_IN4,
-             MOTOR_PIN_ENB);
 
+struct Robot{
+  Chassis chassis;
+} pokebot;
 
 void setup(){
   Serial.begin(9600);
@@ -27,25 +24,24 @@ void processCommand(){
   switch(command){
     case COMMAND_FORWARD:
       Serial.println("forward");
-      wheels.forward(STRAIGTH_MOVE_TIME);
+      pokebot.chassis.forward();
       break;
     case COMMAND_BACKWARD:
       Serial.println("backward");
-      wheels.backward(STRAIGTH_MOVE_TIME);
+      pokebot.chassis.backward();
       break;
     case COMMAND_TURN_LEFT:
       Serial.println("turn left");
-      wheels.turn_left(STRAIGHT_TURN_TIME);
+      pokebot.chassis.turn_left();
       break;
     case COMMAND_TURN_RIGHT:
       Serial.println("turn right");
-      wheels.turn_right(STRAIGHT_TURN_TIME);
+      pokebot.chassis.turn_right();
       break;
     default:
       Serial.println("Unknown command");
       break;
   }
-  wheels.stop_motors();
   clearCommand();
 }
 
