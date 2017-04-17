@@ -1,13 +1,12 @@
 #include <Arduino.h>
 #include "main.h"
 
-String command = "";
+char command = ' ';
 boolean commandReady = false;
 
 void setup(){
   Serial.begin(9600);
   Serial.println("Robot ready");
-  command.reserve(200);
 }
 
 void loop(){
@@ -22,16 +21,13 @@ void processCommand(){
 }
 
 void clearCommand(){
-  command="";
+  command=' ';
   commandReady=false;
 }
 
 void serialEvent() {
   while (Serial.available()) {
-    char inChar = (char) Serial.read();
-    command += inChar;
-    if (inChar == '\n') {
-      commandReady = true;
-    }
+    command = (char) Serial.read();
+    commandReady = true;
   }
 }
