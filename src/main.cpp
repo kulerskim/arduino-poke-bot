@@ -16,7 +16,23 @@ void loop(){
 }
 
 void processCommand(){
-  Serial.println("Processing: " + command);
+  switch(command){
+    case COMMAND_FORWARD:
+      Serial.println("forward");
+      break;
+    case COMMAND_BACKWARD:
+      Serial.println("backward");
+      break;
+    case COMMAND_TURN_LEFT:
+      Serial.println("turn left");
+      break;
+    case COMMAND_TURN_RIGHT:
+      Serial.println("turn right");
+      break;
+    default:
+      Serial.println("Unknown command");
+      break;
+  }
   clearCommand();
 }
 
