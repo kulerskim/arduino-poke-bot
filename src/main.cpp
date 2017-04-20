@@ -2,29 +2,17 @@
 #include "main.h"
 #include "robot/robot.h"
 
-char command = ' ';
-boolean commandReady = false;
 Robot pokebot(Serial);
 
+#ifndef UNIT_TEST
 void setup(){
   Serial.begin(9600);
+  Serial.setTimeout(50);
 }
 
 void loop(){
-  if(commandReady){
-    pokebot.processCommand(command);
-    clearCommand();
+  if(Serial.available()) {
+    pokebot.processCommand((char) Serial.read());
   }
 }
-
-void clearCommand(){
-  command=' ';
-  commandReady=false;
-}
-
-void serialEvent() {
-  while (Serial.available()) {
-    command = (char) Serial.read();
-    commandReady = true;
-  }
-}
+#endif
